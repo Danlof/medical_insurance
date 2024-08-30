@@ -16,6 +16,14 @@ MODEL_DIR = os.path.join(PROJECT_ROOT,"models")
 DATA_PATH = os.path.join(DATA_DIR,"Medical_insurance.csv")
 TARGET_COLUMN = "charges"
 
+MODEL_NAME = "medical_model_v1.pkl"
+MODEL_PATH = os.path.join(MODEL_DIR,"trained_models")
+
+FEATURES = ['Age', 'Sex', 'BMI', 'number of Children', 'Smoker', 'Region']
+NUM_FEATURES = ['Age', 'BMI', 'number of Children', 'Smoker']
+CAT_FEATURES = ['Sex','Smoker','Region']
+FEATURES_TO_ENCODE = ['Sex','Smoker','Region']
+
 # Model settings
 MODEL_TYPE = "XGBRegressor"
 HYPERPARAMETERS = {
