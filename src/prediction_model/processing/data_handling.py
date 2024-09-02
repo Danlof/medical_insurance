@@ -1,8 +1,9 @@
 import os
 import pandas as pd
 import joblib
+from sklearn.model_selection import train_test_split
 from setuptools.sandbox import save_path
-from src.prediction_model.config import config
+from prediction_model import config
 
 # load dataset
 def load_dataset(file_name):
@@ -34,6 +35,10 @@ def load_pipeline(pipeline_to_load):
         raise
 
 
-
+# data splitting
+def split_dataset(data,test_size = 0.2,random_state=1):
+    """This function splits the data into training and test sets"""
+    train_data,test_data = train_test_split(data,test_size=test_size,random_state=random_state)
+    return train_data,test_data
 
    
