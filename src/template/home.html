@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insurance Premium Prediction</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1 align="center">Insurance Premium Prediction</h1>
+        <form id="premiumPredictionForm" action="/predict" method="POST" onsubmit="submitForm(event)">
+            <table align="center">
+                <tr>
+                    <td>Age</td>
+                    <td>
+                        <input type="number" id="age" name="age" required min="18" placeholder="Enter your age">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Sex</td>
+                    <td>
+                        <select id="sex" name="sex" required>
+                            <option value="">Select your sex</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>BMI</td>
+                    <td>
+                        <input type="number" id="bmi" name="bmi" required step="0.1" placeholder="Enter your BMI">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Number of children</td>
+                    <td>
+                        <input type="number" id="children" name="children" required min="0" placeholder="Enter number of Children">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Smoker</td>
+                    <td>
+                        <select id="smoker" name="smoker" required>
+                            <option value="">Select</option>
+                            <option value="yes">Yes</option>
+                            <option value="no">No</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Region</td>
+                    <td>
+                        <select id="region" name="region" required>
+                            <option value="">Select your Region</option>
+                            <option value="northeast">Northeast</option>
+                            <option value="southeast">Southeast</option>
+                            <option value="southwest">Southwest</option>
+                            <option value="northwest">Northwest</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">
+                        <input type="submit" value="Submit">
+                        &nbsp;&nbsp;
+                        <input type="reset" value="Reset" onclick="location.href='/';">
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <h3 align="center" id="prediction"></h3>
+        <script>
+            function submitForm(event) {
+                event.preventDefault(); // Prevent default form submission
+
+                // Gather input values
+                const age = document.getElementById('age').value;
+                const sex = document.getElementById('sex').value;
+                const bmi = document.getElementById('bmi').value;
+                const children = document.getElementById('children').value;
+                const smoker = document.getElementById('smoker').value;
+                const region = document.getElementById('region').value;
+
+                // Create the payload object
+                const payload = {
+                    data: [
+                        {
+                            age: parseInt(age),
+                            sex: sex,
+                            bmi: parseFloat(bmi),
+                            children: parseInt(children),
+                            smoker: smoker ,
+                            region: region
+                        }
+                    ]
+                };
+
+                // Send POST request to the backend
+                fetch('http://localhost:8000/predict', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Update the prediction element with the response
+                    document.getElementById('prediction').textContent = `Predicted Premium $: ${data.predictions}`;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while predicting the premium.');
+                });
+            }
+            
+        </script>
+    </div>
+</body>
+</html>
