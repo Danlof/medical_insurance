@@ -23,5 +23,9 @@ setup(
         'matplotlib',
         'joblib',
         'gunicorn',
+        'fastapi',
+        'pytest',
+        'uvicorn',
+        'prometheus-fastapi-instrumentator',
     ],
 )
